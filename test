@@ -1,0 +1,42 @@
+<?php
+class dbObject  {
+
+  
+    private $dbhost='';
+    private $dbname='';
+    private $dbuser='';
+    private $dbpass='';
+    private $link;
+    private $error_message="";
+
+    public function __construct($dbhost,$dbname,$dbuser,$dbpass) {
+        $this->dbhost=$dbhost;
+        $this->dbuser=$dbuser;
+        $this->dbpass=$dbpass;
+        $this->dbname=$dbname;
+
+        $this->link=($GLOBALS["___mysqli_ston"]=mysqli_connect($this->dbhost,$this->dbuser,$this->dbpass));
+    
+    if(mysqli_connect_errno())
+    {
+        $this->error_message="連接資料庫失敗：".mysqli_connet_error();
+        echo $this->error_message;
+        return false;
+    }
+        mysqli_query($GLOBALS["___mysqli_ston"],"SET NAMES utf8");
+        mysqli_query($this->link, "SET CHARACTER_SET_database= utf8");
+        mysqli_query($this->link, "SET CHARACTER_SET_CLIENT= utf8");
+        mysqli_query($this->link, "SET CHARACTER_SET_RESULTS= utf8");
+        echo "資料庫連接成功";
+        if(!(bool)
+        mysqli_query($this->link, "USE ".$this->mysql_database))$this->error_message = 'Database '.$this->mysql_database.' does not exist!';
+    }
+
+    public function __destruct() {
+        mysqli_close($this->link);
+    }
+
+
+}
+
+?>
